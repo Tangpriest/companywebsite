@@ -11,6 +11,6 @@ app.use(koaStatic(
   path.join(__dirname, staticPath)
 ))
 
-app.listen(3000, () => {
+app.listen(80, () => {
   console.log('[demo] static-use-middleware is starting at port 3000')
 })
