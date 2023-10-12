@@ -1,6 +1,13 @@
 const koa = require('koa')
 const koaStatic = require('koa-static')
 const path = require('path')
+const fs = require('fs')
+const https = require('https')
+
+const options = {
+  key: fs.readFileSync('./certs/lightexpro.com.key'),
+  cert: fs.readFileSync('./certs/lightexpro.com_bundle.pem')
+};
 
 const app = new koa()
 
@@ -11,6 +18,10 @@ app.use(koaStatic(
   path.join(__dirname, staticPath)
 ))
 
-app.listen(80, () => {
-  console.log('[demo] static-use-middleware is starting at port 3000')
-})
+const httpsserver = https.createServer(options,app.callback())
+
+httpsserver.listen(443, () => {
+  console.log('Server listening on port 443');
+});
+
+
